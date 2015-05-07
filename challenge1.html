@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+</head>
+
+<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"/>
+<script src="bower_components/jquery/dist/jquery.js"></script>
+<script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+<script>
+
+    function go1()
+    {
+        for(var index=0;index<document.forms[0].length;index++){
+            document.forms[0].elements[index].value="";
+        }
+    }
+
+        function checkPass() {
+
+            var pass1 = document.getElementById('password');
+            var pass2 = document.getElementById('confirm_password');
+            var message = document.getElementById('confirmMessage');
+             var ok = true;
+            var goodColor = "#66cc66";
+            var badColor = "#ff6666";
+
+            if(pass1.value == pass2.value ){
+
+                message.style.color = goodColor;
+                message.innerHTML = "Password Matches!"
+            }else{
+
+                message.style.color = badColor;
+                message.innerHTML = "Password Does Not Match!"
+                ok = false;
+            }
+            return ok;
+        }
+
+
+        function validateDOB() {
+
+            if(document.querySelector('#Birthday').value.length === 10){
+                var dateString = document.querySelector('#Birthday').value;
+
+                var parts = dateString.split("/"); // not testing if the format is correct here
+                var now = new Date();
+
+                var birthday = new Date(now.getFullYear(),parts[1]-1,parts[0]);
+
+                var age = now.getFullYear()-parts[2];
+
+                if (now<birthday) age--;
+
+                if (age < 14 || age > 150) {
+                    alert("You should be at least 14 and no older than 150 to sign up!");
+                    return false
+                }
+                // other validation
+                return true;
+            }
+
+        }
+
+        function showInput() {
+
+            document.querySelector('#show').style.display = 'block';
+            var firstname = document.querySelector('#firstname') ;
+            firstname.class = 'page-header';
+                document.querySelector('#showname').innerHTML = firstname.value;
+
+            var email = document.querySelector('#email');
+            email.class= 'form-control';
+            document.querySelector('#email1').value = email.value;
+
+            var firstname = document.querySelector('#firstname');
+            firstname.class= 'form-control';
+            document.querySelector('#firstname1').value = firstname.value;
+
+            var lastname = document.querySelector('#lastname');
+            lastname.class= 'form-control';
+            document.querySelector('#lastname1').value = lastname.value;
+
+
+
+            var birthday = document.querySelector('#Birthday');
+            birthday.class= 'form-control';
+            document.querySelector('#birthday1').value = birthday.value;
+        }
+
+
+
+
+
+        document.addEventListener('DOMContentLoaded',function() {
+
+            go1();
+
+       var inputs = document.querySelectorAll('input');
+
+        for(var i = 0; i < inputs.length; i++){
+
+
+                inputs[i].addEventListener('dblclick',function(){
+                    if(this.value !== ''){
+                        var r = confirm('Are you sure to clear?');
+                        if(r == true){
+                            this.value='';
+                        }
+
+                    }
+
+            })
+        }
+
+           document.querySelector('button').addEventListener('click',function(e) {
+               console.log(document.querySelector('form').checkValidity());
+               if(document.querySelector('form').checkValidity() && checkPass() && validateDOB()){
+                   e.preventDefault();
+                   showInput();
+               }
+           })
+
+
+
+    })
+
+</script>
+
+<body>
+
+
+     <div class=" col-lg-6 col-lg-offset-3">
+
+         <div class="page-header"><h1>My Apple ID</h1></div>
+
+         <div class="container-fluid">
+         <div class="row">
+         <div class="col-lg-4 ">
+             <div class="page-header"><h1><small>Create an Apple ID</small></h1></div>
+
+                     An Apple ID is your user name for everything you do with Apple: Shop the iTunes Store, enable iCloud on all your devices, buy from the Apple Online Store, make a reservation at an Apple Retail Store, access the Apple Support website, and more.
+             <div><a href="#">Read the Apple Customer Privacy Policy</a></div>
+
+         </div>
+
+     <div class="col-lg-8">
+        <div class="page-header"><h1><small>Create an Apple ID</small></h1></div>
+
+
+                   <form action="" class="form-horizontal" onsubmit="return (checkPass() && validateDOB() )">
+                       <div class="form-group">
+                           <label  class="col-lg-3 control-label " for="email">Username:</label>
+                           <div class="col-lg-9">
+                           <input type="email" class="form-control"  id="email" name="email" maxlength="56" placeholder="Enter your email address" required aria-describedby="sizing-addon1" aria-required="true">
+                           </div>
+                       </div>
+
+                       <div class="form-group">
+                           <label  class="col-lg-3 control-label " for="password">Password:</label>
+                           <div class="col-lg-9">
+                           <input  aria-required="true" type="password" class="form-control" id="password" name="password" pattern=".{6,}" placeholder="At least 6 characters" required   aria-describedby="sizing-addon1">
+                       </div>
+                           </div>
+
+                       <div class="form-group">
+                           <label  class="col-lg-3 control-label " for="confirm_password">Confirm_Password:</label>
+                           <div class="col-lg-9">
+                           <input type="password" class="form-control" id="confirm_password" pattern=".{6,}"  name="confirm_password" required aria-required="true"  aria-describedby="sizing-addon1">
+                           <label id="confirmMessage" class=""></label>
+                           </div>
+                       </div>
+
+                       <div class="form-group">
+                           <label  class="col-lg-3 control-label " for="firstname">FirstName:</label>
+                           <div class="col-lg-9">
+                           <input type="text" class="form-control" id="firstname" name="firstname" maxlength="50" required aria-required="true"  aria-describedby="sizing-addon1">
+                       </div>
+                           </div>
+
+                       <div class="form-group">
+                           <label class="col-lg-3 control-label " for="lastname">LastName:</label>
+                           <div class="col-lg-9">
+                           <input type="text" class="form-control" id="lastname" name="lastname" maxlength="50"  placeholder="Optional" aria-describedby="sizing-addon1">
+                       </div>
+                       </div>
+
+                       <div class="form-group">
+                           <label  class="col-lg-3 control-label " for="Birthday">Birthday:</label>
+                           <div class="col-lg-9">
+                           <input type="text" class="form-control" pattern="\d{1,2}/\d{1,2}/\d{4}" id="Birthday" name="Birthday"  placeholder="MM/DD/YYYY" required aria-required="true" />
+                       </div>
+                           </div>
+
+                       <div class="form-group">
+                           <div class="col-sm-offset-3 col-sm-9">
+                               <button type="submit" class="btn btn-default" >Sign up</button>
+                           </div>
+                       </div>
+
+                   </form>
+
+
+
+
+
+
+</div>
+
+
+             <div  id= "show" class="container-fluid" style="display: none">
+
+                 <div class="row">
+
+                         <div  class="page-header">
+                             <h1 >Welcome: </h1><h1 id="showname"></h1>
+                         </div>
+
+                     <div class="col-lg-4 ">
+                         <div class="page-header"><h1><small>The Account Information</small></h1></div>
+                     <form action="" class="form-horizontal">
+
+                         <div class="input-group input-group">
+                             <span class="input-group-addon " >Username:</span>
+                             <input id="email1" type="text" class="form-control" aria-describedby="basicg-addon1">
+                         </div>
+
+
+                         <div class="input-group input-group">
+                             <span class="input-group-addon" >FirstName:</span>
+                             <input id="firstname1" type="text" class="form-control" aria-describedby="basic-addon1">
+                         </div>
+
+
+
+
+                         <div class="input-group input-group">
+                             <span class="input-group-addon" >LastName:</span>
+                             <input id="lastname1" type="text" class="form-control" aria-describedby="basic-addon1">
+                         </div>
+
+                         <div class="input-group input-group">
+                             <span class="input-group-addon" >Birthday:</span>
+                             <input id="birthday1" type="text" class="form-control" aria-describedby="basic-addon1">
+                         </div>
+                     </form>
+                    </div>
+
+
+                     <div class="col-lg-8">
+                         <div class="page-header"><h1><small>Complete Profile</small></h1></div>
+
+
+                         <form action="" class="form-horizontal">
+                             <div class="form-group">
+                                 <label  class="col-lg-3 control-label " for="gender">Gender:</label>
+                                 <div class="col-lg-9">
+                                     <input type="text" class="form-control"  id="gender" name="gender"  placeholder="Enter Male or Female (optional)"  aria-describedby="sizing-addon1" >
+                                 </div>
+                             </div>
+
+                             <div class="form-group">
+                                 <label  class="col-lg-3 control-label " for="country">Country:</label>
+                                 <div class="col-lg-9">
+                                     <input  type="text" class="form-control" id="country" name="country"  placeholder="Enter your country (optional)" aria-describedby="sizing-addon1">
+                                 </div>
+                             </div>
+
+                             <div class="form-group">
+                                 <label  class="col-lg-3 control-label " for="interest">Interests:</label>
+                                 <div class="col-lg-9">
+                                     <input  type="text" class="form-control" id="interest" name="interest"  placeholder="Enter your interests (optional)" aria-describedby="sizing-addon1">
+                                 </div>
+                             </div>
+
+                             <div class="form-group">
+                                 <div class="col-sm-offset-3 col-sm-9">
+                                     <button type="submit" class="btn btn-default" >Add</button>
+                                 </div>
+                             </div>
+
+
+                         </form>
+
+
+
+
+
+
+                     </div>
+
+
+                  </div>
+           </div>
+
+</div>
+
+
+
+
+
+</div></div>
+</body>
+</html>
